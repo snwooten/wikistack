@@ -14,9 +14,10 @@ router.get('/add', function(req, res, next) {
 });
 
 router.get('/:urlTitle', function(req, res, next) {
+  var urlTitleOfAPage = req.params.urlTitle;
   Page.findOne({
     where: {
-      urlTitle: req.params.urlTitle
+      urlTitle: urlTitleOfAPage
     }
   })
   .then(function(foundPage) {
@@ -32,13 +33,12 @@ router.get('/:urlTitle', function(req, res, next) {
 //router.get('/add') will create a post request
 router.post('/', function(req, res, next) {
 
-  var newPage = page.build(req.body);
-  newPage.save()
-    .then(function() {
-      res.redirect('/wiki');
-    })
-    .catch(next);
-
+  var newPage = Page.build(req.body);
+  newPage.save() //saves content in database. it is asynchronous, so it returns a promise
+  .then(function() {
+    res.redirect('/wiki');
+  })
+  .catch(next);
 });
 
 module.exports = router;

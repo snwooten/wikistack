@@ -19,12 +19,7 @@ router.get('/', function(req, res, next) {
         pages: pages//inside of index.html, can use pages
       });
     })
-  res.render('index');
 });
 
-router.use(function(err, req, res, next) {
-  console.error(err);
-  res.status(500).send(err.message);
-})
 
 module.exports = router;

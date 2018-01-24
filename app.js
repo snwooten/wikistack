@@ -2,13 +2,14 @@ const morgan = require('morgan');
 const express = require('express');
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
+const app = express();
 const models = require('./models/');
 //or const {db} = require('./models/')
 const path = require('path');
 const routes = require('./routes/');//also known as api. Any external application will need ot use these routes
-const app = express();
 
-nunjucks.configure('views', { noCache: true });
+
+var env  = nunjucks.configure('views', { noCache: true });
 app.set('view engine', 'html'); // what file extension do our templates have
 app.engine('html', nunjucks.render); // how to render html templates. engine is html. Setting view engine to html and view this engine, render this nunjucks method
 
@@ -16,6 +17,7 @@ app.engine('html', nunjucks.render); // how to render html templates. engine is 
 app.use(morgan('dev'));
 
 //static middleware - when request comes in, it will look inside that directory for that request
+app.use(express.static(path.join(__dirname, './public'))); //serving up static files (e.g. css files)
 
 
 //body parsing middleware
@@ -26,6 +28,11 @@ app.use(bodyParser.json())
 
 //setting up routing middleware
 app.use('/', routes);
+
+app.use(function(err, req, res, next) {
+  console.error(err);
+  res.status(500).send(err.message);
+})
 
 
 //start up server w/ db access

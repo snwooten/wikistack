@@ -9,7 +9,7 @@ const path = require('path');
 const routes = require('./routes/');//also known as api. Any external application will need ot use these routes
 
 
-var env  = nunjucks.configure('views', { noCache: true });
+nunjucks.configure('views', { noCache: true });
 app.set('view engine', 'html'); // what file extension do our templates have
 app.engine('html', nunjucks.render); // how to render html templates. engine is html. Setting view engine to html and view this engine, render this nunjucks method
 

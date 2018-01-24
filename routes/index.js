@@ -10,16 +10,7 @@ router.use('/wiki', wikiRouter); //use any request that comes in that starts wit
 //redirect our request with the above middleware whenever it starts w/ wiki.
 router.use('/user', userRouter);
 
-//middleware to redirect '/' to the home page.
-router.get('/', function(req, res, next) {
-  Page.findAll()
-  //returns a promise that has a value of all of the pages
-    .then(function(pages) {
-      res.render('index', {
-        pages: pages//inside of index.html, can use pages
-      });
-    })
-});
+
 
 
 module.exports = router;
